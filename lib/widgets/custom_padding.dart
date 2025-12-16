@@ -20,9 +20,11 @@ class CustomPadding extends StatelessWidget {
           horizontal: horizontalPadding ?? 20,
           vertical: verticalPadding ?? 20,
         ),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth ?? 900),
-          child: child,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxWidth ?? 900),
+            child: child,
+          ),
         ),
       ),
     );

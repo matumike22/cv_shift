@@ -1,0 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'account_repo.dart';
+import 'models/account.dart';
+
+// StreamProvider for real-time updates
+final authStateProvider = StreamProvider<User?>((ref) {
+  final user = FirebaseAuth.instance.authStateChanges();
+  return user;
+});
+
+final accountProvider = StreamProvider<Account?>((ref) {
+  final authState = ref.watch(authStateProvider).value;
+  if (authState == null) {
+    return Stream.value(null);
+  }
+  final account = AccountRepo().getAccountStream(authState.uid);
+  return account;
+});

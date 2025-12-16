@@ -5,7 +5,7 @@ class AppTheme {
   ThemeData _theme() {
     return ThemeData.dark().copyWith(
       colorScheme: ColorScheme.dark(
-        primary: const Color(0xFF6750A4),
+        primary: Colors.white,
         secondary: Colors.white,
       ),
       primaryColor: Color(0xFF6750A4),
@@ -61,6 +61,16 @@ class AppTheme {
         ),
         labelStyle: const TextStyle(fontSize: 16),
         floatingLabelStyle: const TextStyle(fontSize: 16),
+      ),
+
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          textStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
       ),
     );
   }
