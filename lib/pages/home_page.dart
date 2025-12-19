@@ -1,3 +1,4 @@
+import 'package:cv_shift/widgets/cv_pdf.dart';
 import 'package:cv_shift/widgets/liquid_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,11 @@ class HomePage extends ConsumerWidget {
                                     height: 50,
                                     buttonText: 'Print',
                                     buttonIcon: CupertinoIcons.printer,
-                                    onTap: () {},
+                                    onTap: () async {
+                                      await CvPdfPage().printCvPdf(
+                                        cvData.content,
+                                      );
+                                    },
                                   ),
                                   const SizedBox(width: 20),
                                   LiquidButton(
