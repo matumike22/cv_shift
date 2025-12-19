@@ -68,6 +68,7 @@ OUTPUT FORMAT (must match exactly):
     "full_name": "",
     "location": "",
     "email": "",
+    "company": "",
     "phone": "",
     "linked_in": "",
     "github": "",
@@ -116,6 +117,7 @@ OUTPUT FORMAT (must match exactly):
   ]
 }
 
+company in header is the  company in the job description that I'm applying to.
 The skills section should categorize skills (e.g., Programming Languages, Frameworks, Leadership) and list relevant items under each category.
 
 ''';

@@ -7,9 +7,10 @@ class LiquidContainer extends StatelessWidget {
     this.width,
     this.height,
     this.borderRadius,
+    this.opacity,
     required this.child,
   });
-  final double? width, height, borderRadius;
+  final double? width, height, borderRadius, opacity;
   final Widget child;
 
   @override
@@ -17,7 +18,7 @@ class LiquidContainer extends StatelessWidget {
     return GlassContainer(
       height: height ?? 300,
       width: width ?? 500,
-      borderColor: Colors.white10,
+      borderColor: Colors.white24,
       borderRadius: BorderRadius.circular(borderRadius ?? 30),
       gradient: LinearGradient(
         colors: [
@@ -44,7 +45,7 @@ class LiquidContainer extends StatelessWidget {
       isFrostedGlass: true,
       shadowColor: Colors.black.withValues(alpha: 0.20),
       alignment: Alignment.center,
-      frostedOpacity: 0.12,
+      frostedOpacity: opacity ?? 0.12,
       padding: EdgeInsets.all(20),
       child: child,
     );

@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:super_bullet_list/bullet_list.dart';
 
 class CvPage extends StatelessWidget {
-  final Map<String, dynamic> data;
+  final Map<String, dynamic>? data;
 
-  const CvPage({super.key, required this.data});
+  const CvPage({super.key, this.data});
 
   @override
   Widget build(BuildContext context) {
-    final header = data['header'];
-    final experience = data['experience'] as List;
-    final projects = data['projects'] as List;
-    final education = data['education'] as List;
-    final skills = data['skills'] as List;
+    final header = data?['header'] ?? {};
+    final experience = data?['experience'] as List? ?? [];
+    final projects = data?['projects'] as List? ?? [];
+    final education = data?['education'] as List? ?? [];
+    final skills = data?['skills'] as List? ?? [];
 
     return Center(
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
         width: 794,
         child: SafeArea(
           child: SingleChildScrollView(
@@ -58,29 +61,32 @@ class _HeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String fullName = header['full_name'] ?? '';
+    String role = header['role'] ?? '';
+    String location = header['location'] ?? '';
+    String email = header['email'] ?? '';
+    String phone = header['phone'] ?? '';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          header['full_name'],
+          fullName,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
-        Text(
-          header['role'],
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-        ),
+        Text(role, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
           runSpacing: 8,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            _Info(header['location']),
+            _Info(location),
             _Dot(),
-            _Info(header['email']),
+            _Info(email),
             _Dot(),
-            _Info(header['phone']),
+            _Info(phone),
           ],
         ),
       ],
@@ -144,6 +150,12 @@ class _ExperienceSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: experience.map((e) {
+        String role = e['role'] ?? '';
+        String company = e['company'] ?? '';
+        String startYear = e['start_year']?.toString() ?? '';
+        String endYear = e['end_year']?.toString() ?? '';
+        List responsibilities = e['responsibilities'] as List? ?? [];
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 24),
           child: Column(
@@ -153,14 +165,14 @@ class _ExperienceSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${e['role']} — ${e['company']}',
+                    '$role — $company',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.5,
                     ),
                   ),
                   Text(
-                    '${e['start_year']} – ${e['end_year']}',
+                    '$startYear – $endYear',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.5,
@@ -176,8 +188,8 @@ class _ExperienceSection extends StatelessWidget {
                   separator: SizedBox(height: 8),
                   iconColor: Colors.black,
                   isOrdered: false,
-                  items: (e['responsibilities'] as List)
-                      .map<Widget>((r) => Text(r))
+                  items: responsibilities
+                      .map<Widget>((r) => Text(r?.toString() ?? ''))
                       .toList(),
                 ),
               ),
@@ -197,6 +209,11 @@ class _ProjectsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: projects.map((p) {
+        String name = p['name'] ?? '';
+        String year = p['year']?.toString() ?? '';
+        String contextText = p['context'] ?? '';
+        List highlights = p['highlights'] as List? ?? [];
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 24),
           child: Column(
@@ -206,14 +223,14 @@ class _ProjectsSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    p['name'],
+                    name,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.5,
                     ),
                   ),
                   Text(
-                    '${p['year']}',
+                    year,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12.5,
@@ -222,7 +239,7 @@ class _ProjectsSection extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 4),
-              Text(p['context']),
+              Text(contextText),
               const SizedBox(height: 4),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
@@ -231,8 +248,8 @@ class _ProjectsSection extends StatelessWidget {
                   separator: SizedBox(height: 8),
                   iconColor: Colors.black,
                   isOrdered: false,
-                  items: (p['highlights'] as List)
-                      .map<Widget>((h) => Text(h))
+                  items: highlights
+                      .map<Widget>((h) => Text(h?.toString() ?? ''))
                       .toList(),
                 ),
               ),
@@ -252,17 +269,21 @@ class _EducationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: education.map((e) {
+        String degree = e['degree'] ?? '';
+        String institution = e['institution'] ?? '';
+        String achievement = e['achievement'] ?? '';
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                e['degree'],
+                degree,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5),
               ),
               const SizedBox(height: 4),
-              Text(e['institution']),
+              Text(institution),
               const SizedBox(height: 4),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
@@ -271,7 +292,7 @@ class _EducationSection extends StatelessWidget {
                   separator: SizedBox(height: 8),
                   iconColor: Colors.black,
                   isOrdered: false,
-                  items: [Text(e['achievement'])],
+                  items: [Text(achievement)],
                 ),
               ),
             ],
@@ -290,34 +311,35 @@ class _SkillsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: skills.map((s) {
+        String category = s['category'] ?? '';
+        final items = List<String>.from(s['items'] as List? ?? []);
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                s['category'],
+                category,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
               ),
               const SizedBox(width: 4),
               const Text(':'),
               const SizedBox(width: 4),
-              Builder(
-                builder: (context) {
-                  final items = List<String>.from(s['items']);
-                  return Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
-                    children: List.generate(
-                      items.length,
-                      (index) => Text(
-                        index == items.length - 1
-                            ? '${items[index]}.'
-                            : '${items[index]},',
-                      ),
+              Expanded(
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+
+                  children: List.generate(
+                    items.length,
+                    (index) => Text(
+                      index == items.length - 1
+                          ? '${items[index]}.'
+                          : '${items[index]},',
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
             ],
           ),

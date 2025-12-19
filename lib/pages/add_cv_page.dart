@@ -1,10 +1,12 @@
 import 'package:cv_shift/repo/cv_ai_service.dart';
+import 'package:cv_shift/repo/models/cv_data.dart';
 import 'package:cv_shift/widgets/app_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../repo/cv_data_repo.dart';
 import '../repo/state_providers.dart';
 import '../widgets/custom_padding.dart';
 import '../widgets/cv_page.dart';
@@ -38,7 +40,7 @@ class _AddCvPageState extends State<AddCvPage> {
                 [
                       LiquidContainer(
                         width: double.maxFinite,
-                        height: 500,
+                        height: 510,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -132,6 +134,8 @@ class _AddCvPageState extends State<AddCvPage> {
       try {
         final account = ref.read(accountProvider).value;
 
+        Map<String, dynamic>? _data;
+
         if (account == null) {
           throw Exception('No account found');
         }
@@ -144,19 +148,49 @@ class _AddCvPageState extends State<AddCvPage> {
           jobDescription: _jobDescription!,
           additionalInfo: _additionalInfo,
         );
-        print(result.toString());
+
+        await CvDataRepo().addCvData(
+          CvData(
+            id: '',
+            title: result['header']['company'] ?? 'Untitled CV',
+            userId: account.id,
+            content: result,
+            createdAt: DateTime.now(),
+            updatedAt: DateTime.now(),
+          ),
+        );
 
         if (mounted) {
-          Navigator.of(context, rootNavigator: true).pop();
           Navigator.of(context).pop();
           showDialog(
             context: context,
-            builder: (ctx) => Dialog.fullscreen(child: CvPage(data: result)),
+            builder: (ctx) => Dialog(
+              backgroundColor: Colors.transparent,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: CvPage(data: result),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  LiquidButton(
+                    width: 150,
+                    height: 50,
+                    buttonText: 'Close',
+                    onTap: () {
+                      Navigator.of(ctx).pop();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
           );
         }
       } catch (e) {
         if (mounted) {
-          print(e.toString());
           Navigator.of(context).pop(); // Close loading dialog
           showErrorDialog(context, 'Opps! Something went wrong.');
         }

@@ -56,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 20),
                     TextFormField(
                       decoration: const InputDecoration(labelText: 'Email'),
+
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter an email address';
@@ -81,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       obscureText: true,
                       autocorrect: false,
+                      onFieldSubmitted: (value) => _submit(),
                       onChanged: (value) {
                         _password = value;
                       },
