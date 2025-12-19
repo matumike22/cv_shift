@@ -1,11 +1,10 @@
-import 'package:cv_shift/repo/models/cv_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'account_repo.dart';
 import 'cv_data_repo.dart';
 import 'models/account.dart';
+import 'models/cv_data.dart';
 
 // StreamProvider for real-time updates
 final authStateProvider = StreamProvider<User?>((ref) {

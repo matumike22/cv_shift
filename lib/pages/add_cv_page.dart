@@ -134,8 +134,6 @@ class _AddCvPageState extends State<AddCvPage> {
       try {
         final account = ref.read(accountProvider).value;
 
-        Map<String, dynamic>? _data;
-
         if (account == null) {
           throw Exception('No account found');
         }

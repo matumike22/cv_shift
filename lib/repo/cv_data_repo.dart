@@ -15,21 +15,20 @@ class CvDataRepo {
   }
 
   Stream<List<CvData>> getCvDataStream(String userId) {
-    try {
-      return _collection
-          .where('userId', isEqualTo: userId)
-          .limit(10)
-          .snapshots()
-          .map(
-            (snapshot) => snapshot.docs
-                .map((doc) => CvData.fromJson(doc.data()).copyWith(id: doc.id))
-                .toList(),
-          );
-    } on FirebaseException catch (e) {
-      throw Exception('Failed to get CV data stream: ${e.message}');
-    } catch (e) {
-      throw Exception('Unexpected error while getting CV data stream: $e');
-    }
+    return _collection
+        .where('userId', isEqualTo: userId)
+        .orderBy('createdAt', descending: true)
+        .limit(10)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => CvData.fromJson(doc.data()).copyWith(id: doc.id))
+              .toList(),
+        )
+        .handleError((error) {
+          print(error.toString());
+          throw Exception('Failed to get CV data');
+        });
   }
 
   Query getCvDataQuery(String userId) {
