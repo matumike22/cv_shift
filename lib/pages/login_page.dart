@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      extendBody: true,
       body: GradientContainer(
         child: CustomPadding(
           maxWidth: 400,
@@ -151,6 +152,20 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.transparent,
+        height: 82,
+        elevation: 0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: Image.asset('assets/images/micon.png', scale: 40)),
+            const SizedBox(height: 5),
+            Text('Matusala Michael', style: TextStyle(fontSize: 11)),
+          ],
         ),
       ),
     );
